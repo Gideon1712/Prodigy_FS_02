@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Profile</title>
+    <link
+        rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+        crossorigin="anonymous"
+    />
+    <link
+        rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/website.css') }}">
+    <style>
+        .segmented-circle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .segmented-circle .custom-btn {
+            width: 200px;
+            height: 50px;
+            border-radius: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+        }
+        .segmented-circle .custom-btn:hover {
+            background-color: black;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" id="home" href="/">Home</a>
+                <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h3 align="center">Employee's Profile</h3>
+        <form method="POST" action="/create_profile">
+            <div class="form-group">
+                <label for="userId">User ID</label>
+                <input type="text" class="form-control" id="userId" name="userId" placeholder="Enter employee's ID" value="{{ profile.user_id if profile else '' }}" required />
+            </div>
+
+            <!-- Job Type Dropdown -->
+            <div class="form-group">
+                <label for="jobType">Job Type</label>
+                <select class="form-control" id="jobType" name="jobType" required>
+                    <option value="">Select a job type</option>
+                    <option value="Android developer">Android developer</option>
+                    <option value="Cyber-security">Cyber-security</option>
+                    <option value="Data analyst">Data analyst</option>
+                    <option value="Data engineer">Data engineer</option>
+                    <option value="Data scientist">Data scientist</option>
+                    <option value="Full-stack web developer">Full-stack web developer</option>
+                    <option value="Generative AI">Generative AI</option>
+                    <option value="JavaScript engineer">JavaScript engineer</option>
+                    <option value="Machine learning">Machine learning</option>
+                    <option value="IOS developer">IOS developer</option>
+                    <option value="Python developer">Python developer</option>
+                    <option value="Python Modeller">Python Modeller</option>
+                    <option value="Software developer">Software developer</option>
+                    <option value="React engineer">React engineer</option>
+                    <option value="Technology consultant">Technology consultant</option>
+                    <option value="Web developer">Web developer</option>
+                </select>
+            </div>
+
+            <!-- Salary Dropdown -->
+            <div class="form-group">
+                <label for="salary">Salary</label>
+                <select class="form-control" id="salary" name="salary" required>
+                    <option value="">Select a salary range</option>
+                    <option value="20k-25k">20k-25k</option>
+                    <option value="25k-35k">25k-35k</option>
+                    <option value="35k-45k">35k-45k</option>
+                    <option value="45k-55k">45k-55k</option>
+                    <option value="55k-65k">55k-65k</option>
+                    <option value="65k-75k">65k-75k</option>
+                    <option value="75k-85k">75k-85k</option>
+                    <option value="85k-95k">85k-95k</option>
+                    <option value="95k-100k">95k-100k</option>
+                    <option value="100k-120k">100k-120k</option>
+                    <option value="120k-140k">120k-140k</option>
+                    <option value="140k-160k">140k-160k</option>
+                    <option value="160k-180k">160k-180k</option>
+                    <option value="180k-200k">180k-200k</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="title">Title</label>
+                <select class="form-control" id="title" name="title">
+                    <option value="">Select a title</option>
+                    <option value="Mr" {% if profile and profile.title == 'Mr' %}selected{% endif %}>Mr</option>
+                    <option value="Miss" {% if profile and profile.title == 'Miss' %}selected{% endif %}>Miss</option>
+                    <option value="Ms" {% if profile and profile.title == 'Ms' %}selected{% endif %}>Ms</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter first name" value="{{ profile.first_name if profile else '' }}" />
+            </div>
+            <div class="form-group">
+                <label for="surname">Surname</label>
+                <input type="text" class="form-control" id="surname" name="surname" placeholder="Enter surname" value="{{ profile.surname if profile else '' }}" />
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" class="form-control" id="dob" name="dob" value="{{ profile.dob if profile else '' }}" />
+            </div>
+            <div class="form-group">
+                <label for="address1">Street Address Line 1</label>
+                <input type="text" class="form-control" id="address1" name="address1" placeholder="Enter street address" value="{{ profile.address1 if profile else '' }}" />
+            </div>
+            <div class="form-group">
+                <label for="address2">Street Address Line 2</label>
+                <input type="text" class="form-control" id="address2" name="address2" placeholder="Enter street address" value="{{ profile.address2 if profile else '' }}" />
+            </div>
+            <div class="form-group">
+                <label for="postcode">Postcode</label>
+                <input type="text" class="form-control" id="postcode" name="postcode" placeholder="Enter postcode" value="{{ profile.postcode if profile else '' }}" />
+            </div>
+            <div class="form-group">
+                <label for="county">County</label>
+                <select class="form-control" id="county" name="county">
+                    <option value="">Select a county</option>
+                    {% if profile and profile.country and profile.county %}
+                        {% for county in countyData[profile.country] %}
+                            <option value="{{ county }}" {% if profile.county == county %}selected{% endif %}>{{ county }}</option>
+                        {% endfor %}
+                    {% endif %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="country">Country</label>
+                <select class="form-control" id="country" name="country" onchange="updateCounties()">
+                    <option value="">Select a country</option>
+                    <option value="Afghanistan" {% if profile and profile.country == 'Afghanistan' %}selected{% endif %}>Afghanistan</option>
+                    <option value="Albania" {% if profile and profile.country == 'Albania' %}selected{% endif %}>Albania</option>
+                    <option value="Algeria" {% if profile and profile.country == 'Algeria' %}selected{% endif %}>Algeria</option>
+                    <option value="Andorra" {% if profile and profile.country == 'Andorra' %}selected{% endif %}>Andorra</option>
+                    <option value="Angola" {% if profile and profile.country == 'Angola' %}selected{% endif %}>Angola</option>
+                    <option value="Antigua and Barbuda" {% if profile and profile.country == 'Antigua and Barbuda' %}selected{% endif %}>Antigua and Barbuda</option>
+                    <option value="Argentina" {% if profile and profile.country == 'Argentina' %}selected{% endif %}>Argentina</option>
+                    <option value="Armenia" {% if profile and profile.country == 'Armenia' %}selected{% endif %}>Armenia</option>
+                    <option value="Australia" {% if profile and profile.country == 'Australia' %}selected{% endif %}>Australia</option>
+                    <option value="Austria" {% if profile and profile.country == 'Austria' %}selected{% endif %}>Austria</option>
+                    <option value="Azerbaijan" {% if profile and profile.country == 'Azerbaijan' %}selected{% endif %}>Azerbaijan</option>
+                    <option value="Bahamas" {% if profile and profile.country == 'Bahamas' %}selected{% endif %}>Bahamas</option>
+                    <option value="Bahrain" {% if profile and profile.country == 'Bahrain' %}selected{% endif %}>Bahrain</option>
+                    <option value="Bangladesh" {% if profile and profile.country == 'Bangladesh' %}selected{% endif %}>Bangladesh</option>
+                    <option value="Barbados" {% if profile and profile.country == 'Barbados' %}selected{% endif %}>Barbados</option>
+                    <option value="Belarus" {% if profile and profile.country == 'Belarus' %}selected{% endif %}>Belarus</option>
+                    <option value="Belgium" {% if profile and profile.country == 'Belgium' %}selected{% endif %}>Belgium</option>
+                    <option value="Belize" {% if profile and profile.country == 'Belize' %}selected{% endif %}>Belize</option>
+                    <option value="Benin" {% if profile and profile.country == 'Benin' %}selected{% endif %}>Benin</option>
+                    <option value="Bhutan" {% if profile and profile.country == 'Bhutan' %}selected{% endif %}>Bhutan</option>
+                    <option value="Bolivia" {% if profile and profile.country == 'Bolivia' %}selected{% endif %}>Bolivia</option>
+                    <option value="Bosnia and Herzegovina" {% if profile and profile.country == 'Bosnia and Herzegovina' %}selected{% endif %}>Bosnia and Herzegovina</option>
+                    <option value="Botswana" {% if profile and profile.country == 'Botswana' %}selected{% endif %}>Botswana</option>
+                    <option value="Brazil" {% if profile and profile.country == 'Brazil' %}selected{% endif %}>Brazil</option>
+                    <option value="Brunei" {% if profile and profile.country == 'Brunei' %}selected{% endif %}>Brunei</option>
+                    <option value="Bulgaria" {% if profile and profile.country == 'Bulgaria' %}selected{% endif %}>Bulgaria</option>
+                    <option value="Burkina Faso" {% if profile and profile.country == 'Burkina Faso' %}selected{% endif %}>Burkina Faso</option>
+                    <option value="Burundi" {% if profile and profile.country == 'Burundi' %}selected{% endif %}>Burundi</option>
+                    <option value="Cabo Verde" {% if profile and profile.country == 'Cabo Verde' %}selected{% endif %}>Cabo Verde</option>
+                    <option value="Cambodia" {% if profile and profile.country == 'Cambodia' %}selected{% endif %}>Cambodia</option>
+                    <option value="Cameroon" {% if profile and profile.country == 'Cameroon' %}selected{% endif %}>Cameroon</option>
+                    <option value="Canada" {% if profile and profile.country == 'Canada' %}selected{% endif %}>Canada</option>
+                    <option value="Central African Republic" {% if profile and profile.country == 'Central African Republic' %}selected{% endif %}>Central African Republic</option>
+                    <option value="Chad" {% if profile and profile.country == 'Chad' %}selected{% endif %}>Chad</option>
+                    <option value="Chile" {% if profile and profile.country == 'Chile' %}selected{% endif %}>Chile</option>
+                    <option value="China" {% if profile and profile.country == 'China' %}selected{% endif %}>China</option>
+                    <option value="Colombia" {% if profile and profile.country == 'Colombia' %}selected{% endif %}>Colombia</option>
+                    <option value="Comoros" {% if profile and profile.country == 'Comoros' %}selected{% endif %}>Comoros</option>
+                    <option value="Congo, Democratic Republic of the" {% if profile and profile.country == 'Congo, Democratic Republic of the' %}selected{% endif %}>Congo, Democratic Republic of the</option>
+                    <option value="Congo, Republic of the" {% if profile and profile.country == 'Congo, Republic of the' %}selected{% endif %}>Congo, Republic of the</option>
+                    <option value="Costa Rica" {% if profile and profile.country == 'Costa Rica' %}selected{% endif %}>Costa Rica</option>
+                    <option value="Croatia" {% if profile and profile.country == 'Croatia' %}selected{% endif %}>Croatia</option>
+                    <option value="Cuba" {% if profile and profile.country == 'Cuba' %}selected{% endif %}>Cuba</option>
+                    <option value="Cyprus" {% if profile and profile.country == 'Cyprus' %}selected{% endif %}>Cyprus</option>
+                    <option value="Czech Republic" {% if profile and profile.country == 'Czech Republic' %}selected{% endif %}>Czech Republic</option>
+                    <option value="Denmark" {% if profile and profile.country == 'Denmark' %}selected{% endif %}>Denmark</option>
+                    <option value="Djibouti" {% if profile and profile.country == 'Djibouti' %}selected{% endif %}>Djibouti</option>
+                    <option value="Dominica" {% if profile and profile.country == 'Dominica' %}selected{% endif %}>Dominica</option>
+                    <option value="Dominican Republic" {% if profile and profile.country == 'Dominican Republic' %}selected{% endif %}>Dominican Republic</option>
+                    <option value="Ecuador" {% if profile and profile.country == 'Ecuador' %}selected{% endif %}>Ecuador</option>
+                    <option value="Egypt" {% if profile and profile.country == 'Egypt' %}selected{% endif %}>Egypt</option>
+                    <option value="El Salvador" {% if profile and profile.country == 'El Salvador' %}selected{% endif %}>El Salvador</option>
+                    <option value="Equatorial Guinea" {% if profile and profile.country == 'Equatorial Guinea' %}selected{% endif %}>Equatorial Guinea</option>
+                    <option value="Eritrea" {% if profile and profile.country == 'Eritrea' %}selected{% endif %}>Eritrea</option>
+                    <option value="Estonia" {% if profile and profile.country == 'Estonia' %}selected{% endif %}>Estonia</option>
+                    <option value="Eswatini" {% if profile and profile.country == 'Eswatini' %}selected{% endif %}>Eswatini</option>
+                    <option value="Ethiopia" {% if profile and profile.country == 'Ethiopia' %}selected{% endif %}>Ethiopia</option>
+                    <option value="Fiji" {% if profile and profile.country == 'Fiji' %}selected{% endif %}>Fiji</option>
+                    <option value="Finland" {% if profile and profile.country == 'Finland' %}selected{% endif %}>Finland</option>
+                    <option value="France" {% if profile and profile.country == 'France' %}selected{% endif %}>France</option>
+                    <option value="Gabon" {% if profile and profile.country == 'Gabon' %}selected{% endif %}>Gabon</option>
+                    <option value="Gambia" {% if profile and profile.country == 'Gambia' %}selected{% endif %}>Gambia</option>
+                    <option value="Georgia" {% if profile and profile.country == 'Georgia' %}selected{% endif %}>Georgia</option>
+                    <option value="Germany" {% if profile and profile.country == 'Germany' %}selected{% endif %}>Germany</option>
+                    <option value="Ghana" {% if profile and profile.country == 'Ghana' %}selected{% endif %}>Ghana</option>
+                    <option value="Greece" {% if profile and profile.country == 'Greece' %}selected{% endif %}>Greece</option>
+                    <option value="Grenada" {% if profile and profile.country == 'Grenada' %}selected{% endif %}>Grenada</option>
+                    <option value="Guatemala" {% if profile and profile.country == 'Guatemala' %}selected{% endif %}>Guatemala</option>
+                    <option value="Guinea" {% if profile and profile.country == 'Guinea' %}selected{% endif %}>Guinea</option>
+                    <option value="Guinea-Bissau" {% if profile and profile.country == 'Guinea-Bissau' %}selected{% endif %}>Guinea-Bissau</option>
+                    <option value="Guyana" {% if profile and profile.country == 'Guyana' %}selected{% endif %}>Guyana</option>
+                    <option value="Haiti" {% if profile and profile.country == 'Haiti' %}selected{% endif %}>Haiti</option>
+                    <option value="Honduras" {% if profile and profile.country == 'Honduras' %}selected{% endif %}>Honduras</option>
+                    <option value="Hungary" {% if profile and profile.country == 'Hungary' %}selected{% endif %}>Hungary</option>
+                    <option value="Iceland" {% if profile and profile.country == 'Iceland' %}selected{% endif %}>Iceland</option>
+                    <option value="India" {% if profile and profile.country == 'India' %}selected{% endif %}>India</option>
+                    <option value="Indonesia" {% if profile and profile.country == 'Indonesia' %}selected{% endif %}>Indonesia</option>
+                    <option value="Iran" {% if profile and profile.country == 'Iran' %}selected{% endif %}>Iran</option>
+                    <option value="Iraq" {% if profile and profile.country == 'Iraq' %}selected{% endif %}>Iraq</option>
+                    <option value="Ireland" {% if profile and profile.country == 'Ireland' %}selected{% endif %}>Ireland</option>
+                    <option value="Israel" {% if profile and profile.country == 'Israel' %}selected{% endif %}>Israel</option>
+                    <option value="Italy" {% if profile and profile.country == 'Italy' %}selected{% endif %}>Italy</option>
+                    <option value="Jamaica" {% if profile and profile.country == 'Jamaica' %}selected{% endif %}>Jamaica</option>
+                    <option value="Japan" {% if profile and profile.country == 'Japan' %}selected{% endif %}>Japan</option>
+                    <option value="Jordan" {% if profile and profile.country == 'Jordan' %}selected{% endif %}>Jordan</option>
+                    <option value="Kazakhstan" {% if profile and profile.country == 'Kazakhstan' %}selected{% endif %}>Kazakhstan</option>
+                    <option value="Kenya" {% if profile and profile.country == 'Kenya' %}selected{% endif %}>Kenya</option>
+                    <option value="Kiribati" {% if profile and profile.country == 'Kiribati' %}selected{% endif %}>Kiribati</option>
+                    <option value="Korea, North" {% if profile and profile.country == 'Korea, North' %}selected{% endif %}>Korea, North</option>
+                    <option value="Korea, South" {% if profile and profile.country == 'Korea, South' %}selected{% endif %}>Korea, South</option>
+                    <option value="Kosovo" {% if profile and profile.country == 'Kosovo' %}selected{% endif %}>Kosovo</option>
+                    <option value="Kuwait" {% if profile and profile.country == 'Kuwait' %}selected{% endif %}>Kuwait</option>
+                    <option value="Kyrgyzstan" {% if profile and profile.country == 'Kyrgyzstan' %}selected{% endif %}>Kyrgyzstan</option>
+                    <option value="Laos" {% if profile and profile.country == 'Laos' %}selected{% endif %}>Laos</option>
+                    <option value="Latvia" {% if profile and profile.country == 'Latvia' %}selected{% endif %}>Latvia</option>
+                    <option value="Lebanon" {% if profile and profile.country == 'Lebanon' %}selected{% endif %}>Lebanon</option>
+                    <option value="Lesotho" {% if profile and profile.country == 'Lesotho' %}selected{% endif %}>Lesotho</option>
+                    <option value="Liberia" {% if profile and profile.country == 'Liberia' %}selected{% endif %}>Liberia</option>
+                    <option value="Libya" {% if profile and profile.country == 'Libya' %}selected{% endif %}>Libya</option>
+                    <option value="Liechtenstein" {% if profile and profile.country == 'Liechtenstein' %}selected{% endif %}>Liechtenstein</option>
+                    <option value="Lithuania" {% if profile and profile.country == 'Lithuania' %}selected{% endif %}>Lithuania</option>
+                    <option value="Luxembourg" {% if profile and profile.country == 'Luxembourg' %}selected{% endif %}>Luxembourg</option>
+                    <option value="Madagascar" {% if profile and profile.country == 'Madagascar' %}selected{% endif %}>Madagascar</option>
+                    <option value="Malawi" {% if profile and profile.country == 'Malawi' %}selected{% endif %}>Malawi</option>
+                    <option value="Malaysia" {% if profile and profile.country == 'Malaysia' %}selected{% endif %}>Malaysia</option>
+                    <option value="Maldives" {% if profile and profile.country == 'Maldives' %}selected{% endif %}>Maldives</option>
+                    <option value="Mali" {% if profile and profile.country == 'Mali' %}selected{% endif %}>Mali</option>
+                    <option value="Malta" {% if profile and profile.country == 'Malta' %}selected{% endif %}>Malta</option>
+                    <option value="Marshall Islands" {% if profile and profile.country == 'Marshall Islands' %}selected{% endif %}>Marshall Islands</option>
+                    <option value="Mauritania" {% if profile and profile.country == 'Mauritania' %}selected{% endif %}>Mauritania</option>
+                    <option value="Mauritius" {% if profile and profile.country == 'Mauritius' %}selected{% endif %}>Mauritius</option>
+                    <option value="Mexico" {% if profile and profile.country == 'Mexico' %}selected{% endif %}>Mexico</option>
+                    <option value="Micronesia" {% if profile and profile.country == 'Micronesia' %}selected{% endif %}>Micronesia</option>
+                    <option value="Moldova" {% if profile and profile.country == 'Moldova' %}selected{% endif %}>Moldova</option>
+                    <option value="Monaco" {% if profile and profile.country == 'Monaco' %}selected{% endif %}>Monaco</option>
+                    <option value="Mongolia" {% if profile and profile.country == 'Mongolia' %}selected{% endif %}>Mongolia</option>
+                    <option value="Montenegro" {% if profile and profile.country == 'Montenegro' %}selected{% endif %}>Montenegro</option>
+                    <option value="Morocco" {% if profile and profile.country == 'Morocco' %}selected{% endif %}>Morocco</option>
+                    <option value="Mozambique" {% if profile and profile.country == 'Mozambique' %}selected{% endif %}>Mozambique</option>
+                    <option value="Myanmar" {% if profile and profile.country == 'Myanmar' %}selected{% endif %}>Myanmar</option>
+                    <option value="Namibia" {% if profile and profile.country == 'Namibia' %}selected{% endif %}>Namibia</option>
+                    <option value="Nauru" {% if profile and profile.country == 'Nauru' %}selected{% endif %}>Nauru</option>
+                    <option value="Nepal" {% if profile and profile.country == 'Nepal' %}selected{% endif %}>Nepal</option>
+                    <option value="Netherlands" {% if profile and profile.country == 'Netherlands' %}selected{% endif %}>Netherlands</option>
+                    <option value="New Zealand" {% if profile and profile.country == 'New Zealand' %}selected{% endif %}>New Zealand</option>
+                    <option value="Nicaragua" {% if profile and profile.country == 'Nicaragua' %}selected{% endif %}>Nicaragua</option>
+                    <option value="Niger" {% if profile and profile.country == 'Niger' %}selected{% endif %}>Niger</option>
+                    <option value="Nigeria" {% if profile and profile.country == 'Nigeria' %}selected{% endif %}>Nigeria</option>
+                    <option value="North Macedonia" {% if profile and profile.country == 'North Macedonia' %}selected{% endif %}>North Macedonia</option>
+                    <option value="Norway" {% if profile and profile.country == 'Norway' %}selected{% endif %}>Norway</option>
+                    <option value="Oman" {% if profile and profile.country == 'Oman' %}selected{% endif %}>Oman</option>
+                    <option value="Pakistan" {% if profile and profile.country == 'Pakistan' %}selected{% endif %}>Pakistan</option>
+                    <option value="Palau" {% if profile and profile.country == 'Palau' %}selected{% endif %}>Palau</option>
+                    <option value="Palestine" {% if profile and profile.country == 'Palestine' %}selected{% endif %}>Palestine</option>
+                    <option value="Panama" {% if profile and profile.country == 'Panama' %}selected{% endif %}>Panama</option>
+                    <option value="Papua New Guinea" {% if profile and profile.country == 'Papua New Guinea' %}selected{% endif %}>Papua New Guinea</option>
+                    <option value="Paraguay" {% if profile and profile.country == 'Paraguay' %}selected{% endif %}>Paraguay</option>
+                    <option value="Peru" {% if profile and profile.country == 'Peru' %}selected{% endif %}>Peru</option>
+                    <option value="Philippines" {% if profile and profile.country == 'Philippines' %}selected{% endif %}>Philippines</option>
+                    <option value="Poland" {% if profile and profile.country == 'Poland' %}selected{% endif %}>Poland</option>
+                    <option value="Portugal" {% if profile and profile.country == 'Portugal' %}selected{% endif %}>Portugal</option>
+                    <option value="Qatar" {% if profile and profile.country == 'Qatar' %}selected{% endif %}>Qatar</option>
+                    <option value="Romania" {% if profile and profile.country == 'Romania' %}selected{% endif %}>Romania</option>
+                    <option value="Russia" {% if profile and profile.country == 'Russia' %}selected{% endif %}>Russia</option>
+                    <option value="Rwanda" {% if profile and profile.country == 'Rwanda' %}selected{% endif %}>Rwanda</option>
+                    <option value="Saint Kitts and Nevis" {% if profile and profile.country == 'Saint Kitts and Nevis' %}selected{% endif %}>Saint Kitts and Nevis</option>
+                    <option value="Saint Lucia" {% if profile and profile.country == 'Saint Lucia' %}selected{% endif %}>Saint Lucia</option>
+                    <option value="Saint Vincent and the Grenadines" {% if profile and profile.country == 'Saint Vincent and the Grenadines' %}selected{% endif %}>Saint Vincent and the Grenadines</option>
+                    <option value="Samoa" {% if profile and profile.country == 'Samoa' %}selected{% endif %}>Samoa</option>
+                    <option value="San Marino" {% if profile and profile.country == 'San Marino' %}selected{% endif %}>San Marino</option>
+                    <option value="Sao Tome and Principe" {% if profile and profile.country == 'Sao Tome and Principe' %}selected{% endif %}>Sao Tome and Principe</option>
+                    <option value="Saudi Arabia" {% if profile and profile.country == 'Saudi Arabia' %}selected{% endif %}>Saudi Arabia</option>
+                    <option value="Senegal" {% if profile and profile.country == 'Senegal' %}selected{% endif %}>Senegal</option>
+                    <option value="Serbia" {% if profile and profile.country == 'Serbia' %}selected{% endif %}>Serbia</option>
+                    <option value="Seychelles" {% if profile and profile.country == 'Seychelles' %}selected{% endif %}>Seychelles</option>
+                    <option value="Sierra Leone" {% if profile and profile.country == 'Sierra Leone' %}selected{% endif %}>Sierra Leone</option>
+                    <option value="Singapore" {% if profile and profile.country == 'Singapore' %}selected{% endif %}>Singapore</option>
+                    <option value="Slovakia" {% if profile and profile.country == 'Slovakia' %}selected{% endif %}>Slovakia</option>
+                    <option value="Slovenia" {% if profile and profile.country == 'Slovenia' %}selected{% endif %}>Slovenia</option>
+                    <option value="Solomon Islands" {% if profile and profile.country == 'Solomon Islands' %}selected{% endif %}>Solomon Islands</option>
+                    <option value="Somalia" {% if profile and profile.country == 'Somalia' %}selected{% endif %}>Somalia</option>
+                    <option value="South Africa" {% if profile and profile.country == 'South Africa' %}selected{% endif %}>South Africa</option>
+                    <option value="South Sudan" {% if profile and profile.country == 'South Sudan' %}selected{% endif %}>South Sudan</option>
+                    <option value="Spain" {% if profile and profile.country == 'Spain' %}selected{% endif %}>Spain</option>
+                    <option value="Sri Lanka" {% if profile and profile.country == 'Sri Lanka' %}selected{% endif %}>Sri Lanka</option>
+                    <option value="Sudan" {% if profile and profile.country == 'Sudan' %}selected{% endif %}>Sudan</option>
+                    <option value="Suriname" {% if profile and profile.country == 'Suriname' %}selected{% endif %}>Suriname</option>
+                    <option value="Sweden" {% if profile and profile.country == 'Sweden' %}selected{% endif %}>Sweden</option>
+                    <option value="Switzerland" {% if profile and profile.country == 'Switzerland' %}selected{% endif %}>Switzerland</option>
+                    <option value="Syria" {% if profile and profile.country == 'Syria' %}selected{% endif %}>Syria</option>
+                    <option value="Taiwan" {% if profile and profile.country == 'Taiwan' %}selected{% endif %}>Taiwan</option>
+                    <option value="Tajikistan" {% if profile and profile.country == 'Tajikistan' %}selected{% endif %}>Tajikistan</option>
+                    <option value="Tanzania" {% if profile and profile.country == 'Tanzania' %}selected{% endif %}>Tanzania</option>
+                    <option value="Thailand" {% if profile and profile.country == 'Thailand' %}selected{% endif %}>Thailand</option>
+                    <option value="Timor-Leste" {% if profile and profile.country == 'Timor-Leste' %}selected{% endif %}>Timor-Leste</option>
+                    <option value="Togo" {% if profile and profile.country == 'Togo' %}selected{% endif %}>Togo</option>
+                    <option value="Tonga" {% if profile and profile.country == 'Tonga' %}selected{% endif %}>Tonga</option>
+                    <option value="Trinidad and Tobago" {% if profile and profile.country == 'Trinidad and Tobago' %}selected{% endif %}>Trinidad and Tobago</option>
+                    <option value="Tunisia" {% if profile and profile.country == 'Tunisia' %}selected{% endif %}>Tunisia</option>
+                    <option value="Turkey" {% if profile and profile.country == 'Turkey' %}selected{% endif %}>Turkey</option>
+                    <option value="Turkmenistan" {% if profile and profile.country == 'Turkmenistan' %}selected{% endif %}>Turkmenistan</option>
+                    <option value="Tuvalu" {% if profile and profile.country == 'Tuvalu' %}selected{% endif %}>Tuvalu</option>
+                    <option value="Uganda" {% if profile and profile.country == 'Uganda' %}selected{% endif %}>Uganda</option>
+                    <option value="Ukraine" {% if profile and profile.country == 'Ukraine' %}selected{% endif %}>Ukraine</option>
+                    <option value="United Arab Emirates" {% if profile and profile.country == 'United Arab Emirates' %}selected{% endif %}>United Arab Emirates</option>
+                    <option value="United Kingdom" {% if profile and profile.country == 'United Kingdom' %}selected{% endif %}>United Kingdom</option>
+                    <option value="United States" {% if profile and profile.country == 'United States' %}selected{% endif %}>United States</option>
+                    <option value="Uruguay" {% if profile and profile.country == 'Uruguay' %}selected{% endif %}>Uruguay</option>
+                    <option value="Uzbekistan" {% if profile and profile.country == 'Uzbekistan' %}selected{% endif %}>Uzbekistan</option>
+                    <option value="Vanuatu" {% if profile and profile.country == 'Vanuatu' %}selected{% endif %}>Vanuatu</option>
+                    <option value="Vatican City" {% if profile and profile.country == 'Vatican City' %}selected{% endif %}>Vatican City</option>
+                    <option value="Venezuela" {% if profile and profile.country == 'Venezuela' %}selected{% endif %}>Venezuela</option>
+                    <option value="Vietnam" {% if profile and profile.country == 'Vietnam' %}selected{% endif %}>Vietnam</option>
+                    <option value="Yemen" {% if profile and profile.country == 'Yemen' %}selected{% endif %}>Yemen</option>
+                    <option value="Zambia" {% if profile and profile.country == 'Zambia' %}selected{% endif %}>Zambia</option>
+                    <option value="Zimbabwe" {% if profile and profile.country == 'Zimbabwe' %}selected{% endif %}>Zimbabwe</option>
+                </select>
+            </div>
+            <br />
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <button type="submit" class="btn btn-secondary">Update Profile</button>
+        </form>
+    </div>
+
+    <!-- JavaScript to Update Counties Based on Country -->
+    <script>
+        const countyData = {
+            "United States": ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"],
+            "Canada": ["Alberta", "British Columbia", "Manitoba", "New Brunswick", "Newfoundland and Labrador", "Nova Scotia", "Ontario", "Prince Edward Island", "Quebec", "Saskatchewan"],
+            "Australia": ["New South Wales", "Queensland", "South Australia", "Tasmania", "Victoria", "Western Australia"],
+            "India": ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"],
+            "United Kingdom": ["Bedfordshire", "Berkshire", "Bristol", "Buckinghamshire", "Cambridgeshire", "Cheshire", "Cornwall", "Cumbria", "Derbyshire", "Devon", "Dorset", "Durham", "East Riding of Yorkshire", "East Sussex", "Essex", "Gloucestershire", "Greater London", "Greater Manchester", "Hampshire", "Herefordshire", "Hertfordshire", "Isle of Wight", "Kent", "Lancashire", "Leicestershire", "Lincolnshire", "Merseyside", "Norfolk", "North Yorkshire", "Northamptonshire", "Northumberland", "Nottinghamshire", "Oxfordshire", "Rutland", "Shropshire", "Somerset", "South Yorkshire", "Staffordshire", "Suffolk", "Surrey", "Tyne and Wear", "Warwickshire", "West Midlands", "West Sussex", "West Yorkshire", "Wiltshire", "Worcestershire"]
+        };
+
+
+
+        function updateCounties() {
+            const countrySelect = document.getElementById('country');
+            const countySelect = document.getElementById('county');
+            const selectedCountry = countrySelect.value;
+
+            // Clear previous counties
+            countySelect.innerHTML = '<option value="">Select a county</option>';
+
+            if (countyData[selectedCountry]) {
+                countyData[selectedCountry].forEach(county => {
+                    const option = document.createElement('option');
+                    option.value = county;
+                    option.textContent = county;
+                    countySelect.appendChild(option);
+                });
+            }
+        }
+
+
+        // Initialize counties on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCounties();
+        });
+    </script>
+
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"
+    ></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"
+    ></script>
+    <script
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"
+    ></script>
+</body>
+</html>

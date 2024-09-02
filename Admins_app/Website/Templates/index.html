@@ -1,0 +1,41 @@
+{% extends "base.html" %} 
+{% block title %}Home{% endblock %} 
+{% block content %}
+<style>
+  /* Center the button container on the page */
+  .segmented-circle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+  }
+
+  /* Style for all buttons */
+  .segmented-circle a {
+    display: inline-block;
+    margin: 20px;
+    padding: 20px 40px; /* Increase the padding for larger buttons */
+    font-size: 24px; /* Increase the font size for button text */
+    border-radius: 50px; /* Rounded corners */
+    text-decoration: none;
+    color: #fff; /* Initial text color */
+    background-color: #007bff; /* Initial button background color */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for both background and text color */
+  }
+
+  /* Hover effect for buttons */
+  .segmented-circle a:hover {
+    background-color: #000; /* Black background color on hover */
+    color: #fff; /* Ensure text remains white and visible on hover */
+  }
+</style>
+
+<h1 align="center">Home</h1>
+<div class="segmented-circle" align="center">
+  <a href="/create_profile" class="btn btn-primary">Create Profile</a>
+  <a href="/read" class="btn btn-primary">Read</a>
+  <a href="/delete" class="btn btn-primary">Delete</a>
+</div>
+{% endblock %}
